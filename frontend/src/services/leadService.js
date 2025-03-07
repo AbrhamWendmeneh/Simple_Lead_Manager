@@ -1,60 +1,83 @@
 const API_URL = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api`;
 
-export const getLeads = async () => {
-  const response = await fetch(`${API_URL}/leads`);
+const fetchConfig = {
+  credentials: "include",
+  headers: {
+    "Content-Type": "application/json",
+  },
+};
+
+const handleResponse = async (response) => {
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.error || "Failed to fetch leads");
+    throw new Error(error.error || "Something went wrong");
   }
   return response.json();
+};
+
+export const getLeads = async () => {
+  try {
+    const response = await fetch(`${API_URL}/leads`, {
+      ...fetchConfig,
+      method: "GET",
+    });
+    return handleResponse(response);
+  } catch (error) {
+    console.error("Error fetching leads:", error);
+    throw error;
+  }
 };
 
 export const getLead = async (id) => {
-  const response = await fetch(`${API_URL}/leads/${id}`);
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.error || "Failed to fetch lead");
+  try {
+    const response = await fetch(`${API_URL}/leads/${id}`, {
+      ...fetchConfig,
+      method: "GET",
+    });
+    return handleResponse(response);
+  } catch (error) {
+    console.error("Error fetching lead:", error);
+    throw error;
   }
-  return response.json();
 };
 
 export const createLead = async (leadData) => {
-  const response = await fetch(`${API_URL}/leads`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(leadData),
-  });
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.error || "Failed to create lead");
+  try {
+    const response = await fetch(`${API_URL}/leads`, {
+      ...fetchConfig,
+      method: "POST",
+      body: JSON.stringify(leadData),
+    });
+    return handleResponse(response);
+  } catch (error) {
+    console.error("Error creating lead:", error);
+    throw error;
   }
-  return response.json();
 };
 
 export const updateLead = async (id, leadData) => {
-  const response = await fetch(`${API_URL}/leads/${id}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(leadData),
-  });
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.error || "Failed to update lead");
+  try {
+    const response = await fetch(`${API_URL}/leads/${id}`, {
+      ...fetchConfig,
+      method: "PUT",
+      body: JSON.stringify(leadData),
+    });
+    return handleResponse(response);
+  } catch (error) {
+    console.error("Error updating lead:", error);
+    throw error;
   }
-  return response.json();
 };
 
 export const deleteLead = async (id) => {
-  const response = await fetch(`${API_URL}/leads/${id}`, {
-    method: "DELETE",
-  });
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.error || "Failed to delete lead");
+  try {
+    const response = await fetch(`${API_URL}/leads/${id}`, {
+      ...fetchConfig,
+      method: "DELETE",
+    });
+    return handleResponse(response);
+  } catch (error) {
+    console.error("Error deleting lead:", error);
+    throw error;
   }
-  return response.json();
 };
