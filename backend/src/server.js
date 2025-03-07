@@ -9,17 +9,38 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // CORS configuration
-const corsOptions = {
-  origin: ["http://localhost:3000", "http://localhost:3001", "*","https://simple-lead-manager-t7rt.vercel.app/"],
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: true,
-  optionsSuccessStatus: 200,
-};
+app.use(
+  cors({
+    origin: "https://simple-lead-manager-t7rt.vercel.app",
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+    optionsSuccessStatus: 200,
+  })
+);
 
 // Middleware
 app.use(express.json());
-app.use(cors(corsOptions));
+
+// Ensure CORS headers are set for all responses
+app.use((req, res, next) => {
+  res.header(
+    "Access-Control-Allow-Origin",
+    "https://simple-lead-manager-t7rt.vercel.app"
+  );
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.header("Access-Control-Allow-Credentials", "true");
+
+  // Handle OPTIONS method
+  if (req.method === "OPTIONS") {
+    return res.status(200).json({
+      body: "OK",
+    });
+  }
+
+  next();
+});
 
 // Basic route for testing
 app.get("/", (req, res) => {
