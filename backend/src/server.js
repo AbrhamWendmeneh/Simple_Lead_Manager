@@ -10,7 +10,7 @@ const port = process.env.PORT || 3000;
 
 // CORS configuration
 const corsOptions = {
-  origin: ["http://localhost:3000", "http://localhost:3001", "*"],
+  origin: ["http://localhost:3000", "http://localhost:3001", "*","https://simple-lead-manager-t7rt.vercel.app/"],
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true,
