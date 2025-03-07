@@ -8,6 +8,8 @@ A simple Lead Management System with a Next.js frontend and Node.js/Express back
 - View all leads in a table format
 - MongoDB database for data storage
 - RESTful API for lead management
+- TypeScript support
+- Tailwind CSS for styling
 
 ## Prerequisites
 
@@ -18,14 +20,20 @@ A simple Lead Management System with a Next.js frontend and Node.js/Express back
 
 ```
 lead-management-system/
-├── backend/             # Express.js backend
-│   ├── index.js         # Main server file
-│   └── package.json     # Backend dependencies
-└── frontend/            # Next.js frontend
-    ├── pages/           # Next.js pages
-    │   ├── api/         # API routes
-    │   └── index.js     # Main page
-    └── package.json     # Frontend dependencies
+├── backend/                # Express.js backend
+│   ├── src/               # Source code directory
+│   ├── index.js           # Main server file
+│   ├── .env              # Environment variables
+│   └── package.json      # Backend dependencies
+├── frontend/              # Next.js frontend
+│   ├── src/              # Source code directory
+│   │   └── components/   # React components
+│   ├── pages/            # Next.js pages
+│   ├── styles/           # CSS styles
+│   ├── public/           # Static files
+│   ├── .env.local        # Environment variables
+│   └── package.json      # Frontend dependencies
+└── config/               # Configuration files
 ```
 
 ## Setup Instructions
@@ -34,20 +42,25 @@ lead-management-system/
 
 1. Navigate to the backend directory:
 
-   ```
+   ```bash
    cd backend
    ```
 
 2. Install dependencies:
 
-   ```
+   ```bash
    npm install
    ```
 
-3. Make sure MongoDB is running locally on port 27017 or update the connection string in `index.js` to point to your MongoDB instance.
+3. Create a `.env` file in the backend directory with your MongoDB connection string:
+
+   ```
+   MONGODB_URI=your_mongodb_connection_string
+   PORT=3000
+   ```
 
 4. Start the backend server:
-   ```
+   ```bash
    npm run dev
    ```
    The server will run on http://localhost:3000
@@ -56,34 +69,56 @@ lead-management-system/
 
 1. Open a new terminal and navigate to the frontend directory:
 
-   ```
+   ```bash
    cd frontend
    ```
 
 2. Install dependencies:
 
-   ```
+   ```bash
    npm install
    ```
 
-3. Start the frontend development server:
+3. Create a `.env.local` file in the frontend directory:
 
    ```
+   NEXT_PUBLIC_API_URL=http://localhost:3000
+   ```
+
+4. Start the frontend development server:
+
+   ```bash
    npm run dev
    ```
 
    The frontend will run on http://localhost:3001
 
-4. Open your browser and navigate to http://localhost:3001
+5. Open your browser and navigate to http://localhost:3001
+
+## Technology Stack
+
+- **Frontend**:
+
+  - Next.js with TypeScript
+  - Tailwind CSS for styling
+  - ESLint for code linting
+  - PostCSS for CSS processing
+
+- **Backend**:
+  - Express.js
+  - MongoDB with Mongoose
+  - Node.js environment
 
 ## API Endpoints
 
 - `GET /api/leads` - Fetch all leads
 - `POST /api/leads` - Create a new lead
+- `PUT /api/leads/:id` - Update a lead
+- `DELETE /api/leads/:id` - Delete a lead
 
 ## Lead Schema
 
-```javascript
+```typescript
 {
   name: String,       // required
   email: String,      // required, unique
