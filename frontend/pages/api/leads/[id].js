@@ -3,7 +3,9 @@ export default async function handler(req, res) {
     method,
     query: { id },
   } = req;
-  const backendUrl = process.env.BACKEND_URL || "http://localhost:3000";
+  const backendUrl =
+    process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:3000";
+  console.log("backend", backendUrl);
   const leadEndpoint = `${backendUrl}/leads/${id}`;
 
   try {
