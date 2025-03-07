@@ -1,4 +1,5 @@
-require("dotenv").config();
+const path = require("path");
+require("dotenv").config({ path: path.resolve(__dirname, "../.env") });
 const express = require("express");
 const cors = require("cors");
 const connectDB = require("./config/database");
@@ -12,8 +13,7 @@ const corsOptions = {
   origin: [
     "http://localhost:3000",
     "http://localhost:3001",
-    "https://your-vercel-app.vercel.app",
-    "*", // Temporarily allow all origins while testing
+    "*", 
   ],
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
@@ -21,17 +21,30 @@ const corsOptions = {
   optionsSuccessStatus: 200,
 };
 
-// Connect to MongoDB
-connectDB();
-
 // Middleware
 app.use(express.json());
 app.use(cors(corsOptions));
 
 // Basic route for testing
 app.get("/", (req, res) => {
-  res.json({ message: "API is running" });
+  res.json({
+    message: "API is running",
+    env: {
+      port: process.env.PORT,
+      mongoDbConfigured: !!process.env.MONGODB_URI,
+    },
+  });
 });
+
+// Connect to MongoDB
+console.log("Initializing MongoDB connection...");
+connectDB()
+  .then(() => {
+    console.log("MongoDB connection initialized");
+  })
+  .catch((err) => {
+    console.error("Failed to initialize MongoDB:", err);
+  });
 
 // Routes
 app.use("/api/leads", leadRoutes);
