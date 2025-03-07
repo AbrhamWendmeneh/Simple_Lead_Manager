@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import LeadForm from "../src/components/LeadForm";
 import LeadList from "../src/components/LeadList";
-import LoadingSpinner from "../src/components/LoadingSpinner";
 import * as leadService from "../src/services/leadService";
 
 export default function Home() {
@@ -91,7 +90,7 @@ export default function Home() {
                 Lead Management
               </h1>
             </div>
-            {isLoading && <LoadingSpinner size="small" />}
+            {isLoading && <p>Loading...</p>}
           </div>
         </div>
       </nav>
@@ -134,11 +133,11 @@ export default function Home() {
                 </span>
               </div>
               <div>
-                {isLoading && !leads.length ? (
+              {isLoading && !leads.length ? (
                   <div className="p-8 flex justify-center">
-                    <LoadingSpinner size="medium" />
+                    <p>Loading...</p>
                   </div>
-                ) : (
+                )  : (
                   <LeadList
                     leads={leads}
                     onEdit={handleEdit}
